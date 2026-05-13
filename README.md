@@ -443,7 +443,6 @@ Formula: `rank_score = 0.60*severity + 0.30*priority + 0.10*confidence`
 ## 🎓 Learning Resources
 
 ### Documentation Files
-- `VIDEO_SCRIPT.md` - Step-by-step video recording guide
 - `TRIAGE_RESULTS.md` - Real triage results from 8 issues
 - `SAMPLE_OUTPUTS.md` - Agent JSON examples
 
@@ -461,13 +460,12 @@ Formula: `rank_score = 0.60*severity + 0.30*priority + 0.10*confidence`
 
 ## 🚀 Future Enhancements
 
-- [ ] JSON Schema validation for agent outputs
+- [ ] Better formatting of the issues
+- [ ] Link to the GH bug link
+- [ ] Autoassign issues
 - [ ] CI/CD integration (auto-triage on new issues)
-- [ ] Regression test fixtures
-- [ ] Multi-repository support (not just LXD)
-- [ ] Custom severity rubrics per project
 - [ ] Jira backlog auto-reordering via API
-- [ ] Slack notifications for P0/P1 bugs
+- [ ] Mattermost notifications for P0/P1 bugs
 - [ ] Dashboard with triage metrics
 
 ---
@@ -490,15 +488,6 @@ Built for AI Agents Hackathon 2026
 
 ---
 
-## 📞 Support
 
-For questions or issues:
-1. Check `TRIAGE_RESULTS.md` for examples
-2. Run with `--dry-run` to debug
-3. Review agent definitions in `agents/*/agent.md`
-4. Check script help: `./scripts/<script>.sh --help`
-5. See `VIDEO_SCRIPT.md` for demo walkthrough
-
----
 
 **Ready to triage some bugs? Run `/triage-bugs --help` in OpenCode!** 🚀
