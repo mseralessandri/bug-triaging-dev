@@ -1,0 +1,32 @@
+{
+  "id": "18066",
+  "title": "Inconsistent Network Default Action and ACL Interactions",
+  "description": "Base bridge config\n```\nname: br-0\ndescription: VLAN Bridge 0\ntype: bridge\nconfig:\n  security.acls.default.egress.action: reject\n  security.acls.default.ingress.action: reject\n```\nPort forward is in place in all test cases for 80/443 to VM RP for the bridge.\n\nACL Configs\n```\nname: None\ndescription: No rules\negress: []\ningress: []\nconfig: {}\n```\n```\nname: HTTP\ndescription: ''\negress:\n  - action: allow\n    protocol: tcp\n    source_port: 80,443\n    state: enabled\ningress:\n  - action: allow\n    protocol: tcp\n    source_port: 80,443\n    state: enabled\nconfig: {}\n```\n```\nname: SSH\ndescription: ''\negress:\n  - action: allow\n    protocol: tcp\n    source_port: '22'\n    destination_port: '22'\n    state: enabled\ningress:\n  - action: allow\n    protocol: tcp\n    source_port: '22'\n    destination_port: '22'\n    state: enabled\nconfig: {}\n```\n\n---\n\n## Test: Load LXD UI through VM Reverse Proxy on FQDN\n|Case|Expected|Actual|\n|---|---|---|\n|No ACLs Applied|Rejects Request|Accepts Request|\n|None ACL Applied|Rejects Request|Drops Request|\n|HTTP ACL Applied|Accepts Request|Drops Request|\n\nThe observed accessibility is opposite the expected accessibility, and fail states are drops instead of the expected and configured rejects. \n\n---\n\n## Test: SSH Into VM Reverse Proxy Through mDNS LQDN\n|Case|Expected|Actual|\n|---|---|---|\n|No ACLs Applied|Rejects Request|LQDN Unresolvable|\n|None ACL Applied|Rejects Request|LQDN Unresolvable|\n|SSH ACL Applied|Accepts Request|LQDN Unresolvable|\n\n## Test: SSH Into VM Reverse Proxy Through mDNS Hostname\n|Case|Expected|Actual|\n|---|---|---|\n|No ACLs Applied|Rejects Request|Accepts Request|\n|None ACL Applied|Rejects Request|HN Unresolvable|\n|SSH ACL Applied|Accepts Request|HN Unresolvable|\n\nThis one is weird because the LQDN ports are forwarded by LXD by default under nft. I expect this is done so users can access instances by LQDNs and hostnames. I don't think this should be the case, but it is. But that's why the No ACLs case works, because DNS is resolvable, but the Empty and SSH ACLs break that resolvability for some unknown reason, and should be explicitly allowed under the SSH ACL.\n\n---\n\nnft rulesets only seem to change on a network receiving an ACL Update, so adding a Port Forward to a Network doesn't apply to nft until you add/remove an ACL Item from the Network. Already applied ACLs do not propagate changes down stream until the specific ACL is removed and reapplied to the network.",
+  "author": "echoAwoo",
+  "labels": [],
+  "comments": [
+    {
+      "author": "edlerd",
+      "body": "@tomponline can you please move this to the LXD repository?",
+      "created_at": "2026-04-08T10:15:19Z"
+    },
+    {
+      "author": "tomponline",
+      "body": "What is LQDN here?",
+      "created_at": "2026-04-08T10:27:32Z"
+    },
+    {
+      "author": "tomponline",
+      "body": "And HN?",
+      "created_at": "2026-04-08T10:27:50Z"
+    },
+    {
+      "author": "echoAwoo",
+      "body": "HN Hostname\nLQDN Locally Qualified Domain Name (`hostname.local` format)",
+      "created_at": "2026-04-08T18:43:09Z"
+    }
+  ],
+  "created_at": "2026-04-07T05:47:47Z",
+  "updated_at": "2026-04-08T18:43:10Z",
+  "source_url": "https://github.com/canonical/lxd/issues/18066"
+}

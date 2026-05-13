@@ -1,0 +1,42 @@
+{
+  "id": "18178",
+  "title": "Return `user.microcloud` from `/1.0` even when user cannot edit other config",
+  "description": "### Please confirm\n\n- [x] I have searched existing issues to check if an issue already exists for the bug I encountered.\n\n### Distribution\n\nN/A\n\n### Distribution version\n\nN/A\n\n### Output of `snap list --all lxd core20 core22 core24 snapd`\n\n```shell\nN/A\n```\n\n### System info\n\nN/A\n\n### Instance log\n\nN/A\n\n### Expected behavior\n\nWhen querying `/1.0` the `user.microcloud` key is returned for non-authenticated users.\n\nhttps://github.com/canonical/lxd/blob/83189e2dfbd37344bb927c60474e3ff92dc23dab/lxd/api_1.0.go#L277-L289\n\nBut if the user is trusted and doesn't have permissions to edit the config, it doesn't get the see the `user.microcloud` key:\n\nhttps://github.com/canonical/lxd/blob/83189e2dfbd37344bb927c60474e3ff92dc23dab/lxd/api_1.0.go#L450-L456\n\n### Actual behavior\n\nIt seems to be that a trusted user who cannot edit config will get a permission denied error.\n\n### Steps to reproduce\n\nN/A\n\n### Information to attach\n\n- [ ] Any relevant kernel output (`dmesg`)\n- [ ] Instance configuration (`lxc config show <instance> --expanded`)\n- [ ] Main daemon log (at `/var/log/lxd/lxd.log` or `/var/snap/lxd/common/lxd/logs/lxd.log`)\n- [ ] If a lxc command fails, output of the command with `--debug`\n- [ ] Output of the daemon with `--debug` (or use `lxc monitor` while reproducing the issue)",
+  "author": "tomponline",
+  "labels": [],
+  "comments": [
+    {
+      "author": "tomponline",
+      "body": "FYI @edlerd @markylaing ",
+      "created_at": "2026-04-24T12:23:32Z"
+    },
+    {
+      "author": "markylaing",
+      "body": "> a trusted user who cannot edit config will get a permission denied error.\n\nThey don't get a permission denied error, but they not be able to see the `user.microcloud` key.\n\nIn general I think we need to move config into the public server response (including some keys - maybe some from `oidc.*`?) and then populate it with all config if the user has edit permissions.",
+      "created_at": "2026-04-24T14:19:38Z"
+    },
+    {
+      "author": "tomponline",
+      "body": "Thanks. Yes I think the public API config should be returned in all cases, which does not seem to be the case right now.",
+      "created_at": "2026-04-24T14:27:27Z"
+    },
+    {
+      "author": "edlerd",
+      "body": "> In general I think we need to move config into the public server response (including some keys - maybe some from `oidc.*`?) and then populate it with all config if the user has edit permissions.\n\nAgreed. Please ping me once this is ready, and we can adjust the UI to use those fields instead of config.",
+      "created_at": "2026-04-24T15:22:49Z"
+    },
+    {
+      "author": "markylaing",
+      "body": "Was this resolved by https://github.com/canonical/lxd/pull/16442?",
+      "created_at": "2026-05-08T10:50:18Z"
+    },
+    {
+      "author": "markylaing",
+      "body": "Ah no I see the problem. I'll take quick look at this now.",
+      "created_at": "2026-05-08T10:52:32Z"
+    }
+  ],
+  "created_at": "2026-04-24T12:23:21Z",
+  "updated_at": "2026-05-08T10:52:32Z",
+  "source_url": "https://github.com/canonical/lxd/issues/18178"
+}

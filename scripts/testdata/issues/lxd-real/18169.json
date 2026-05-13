@@ -1,0 +1,11 @@
+{
+  "id": "18169",
+  "title": "Drop `cgroup1` support",
+  "description": "`lxc` has removed support for `cgroup1` (https://github.com/lxc/lxc/pull/4671) and `lxcfs` too (https://github.com/lxc/lxcfs/pull/720).\nLXD should follow suite.\n\nRelated information about this and the implication in terms of distro compat: https://documentation.ubuntu.com/release-notes/26.04/changes-since-previous-interim/#cgroup-v1-removed",
+  "author": "simondeziel",
+  "labels": [],
+  "comments": [],
+  "created_at": "2026-04-22T19:50:38Z",
+  "updated_at": "2026-04-23T18:46:11Z",
+  "source_url": "https://github.com/canonical/lxd/issues/18169"
+}
