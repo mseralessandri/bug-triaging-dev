@@ -462,6 +462,7 @@ Formula: `rank_score = 0.60*severity + 0.30*priority + 0.10*confidence`
 
 - [ ] Better formatting of the issues
 - [ ] Link to the GH bug link
+- [ ] Go implementation
 - [ ] Autoassign issues
 - [ ] CI/CD integration (auto-triage on new issues)
 - [ ] Jira backlog auto-reordering via API
