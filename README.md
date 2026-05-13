@@ -469,13 +469,7 @@ Formula: `rank_score = 0.60*severity + 0.30*priority + 0.10*confidence`
 - [ ] Mattermost notifications for P0/P1 bugs
 - [ ] Dashboard with triage metrics
 
----
 
-## 📜 License
-
-This project follows the same license as LXD.
-
----
 
 ## 🙏 Credits
 
